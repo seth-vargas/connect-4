@@ -33,29 +33,32 @@ function makeHtmlBoard() {
 
   // TODO: add comment for this code
 
-  const top = document.createElement("tr");
+  const top = document.createElement("tr"); // Creating the top row where we can drop pieces
   top.setAttribute("id", "column-top");
-  top.addEventListener("click", handleClick);
+  top.addEventListener("click", handleClick); // Adding an event listener to listen out for clicks on the top row
   currentPlayerElement.classList.add("player1");
 
+  // for loop that creates each cell in the top column. and provides an ID that is dynamically created
   for (let x = 0; x < WIDTH; x++) {
     const headCell = document.createElement("td");
     headCell.setAttribute("id", x);
     top.append(headCell);
   }
 
-  board.append(top);
+  board.append(top); // appeniding the top row to the board element
 
   // TODO: add comment for this code
+  // Creating rows dynamically using a for loop
   for (let y = 0; y < HEIGHT; y++) {
     const row = document.createElement("tr");
-
+    // nested for loop creates the cells in each level of the y loop
     for (let x = 0; x < WIDTH; x++) {
       const cell = document.createElement("td");
+      // dynamically create a unique (x, y) pair of coordinates
       cell.setAttribute("id", `${x}, ${y}`);
       row.append(cell);
     }
-
+    // append each row as it is finished being created
     board.append(row);
   }
 }
@@ -89,10 +92,10 @@ const endGame = (msg) => alert(msg);
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
-  // get x from ID of clicked cell
+  // get x from ID of clicked top row cell
   const x = parseInt(evt.target.id);
 
-  // get next spot in column (if none, ignore click)
+  // get next spot in column (if the column is full, then we ignore click)
   const y = findSpotForCol(x);
   if (y === null) {
     return;
@@ -145,7 +148,6 @@ function checkForWin() {
 
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
-      // every time checkForWin is ran, horiz will check for the current cell, and check the cells parallel to the x plane for a match of 4
       const horiz = [
         [y, x],
         [y, x + 1],
